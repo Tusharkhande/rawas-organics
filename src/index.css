@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-rusty-50 text-rusty-900;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-copper-600 hover:bg-copper-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-copper-600 text-copper-600 hover:bg-copper-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 text-sm;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-rusty-100;
+  }
+  
+  .organic-gradient {
+    @apply bg-gradient-to-br from-copper-400 via-copper-500 to-copper-600;
+  }
+  
+  .rusty-gradient {
+    @apply bg-gradient-to-br from-rusty-300 via-rusty-400 to-rusty-500;
+  }
+
+  .bronze-gradient {
+    @apply bg-gradient-to-br from-bronze-400 via-bronze-500 to-bronze-600;
+  }
+
+  .earth-gradient {
+    @apply bg-gradient-to-br from-earth-400 via-earth-500 to-earth-600;
+  }
+}
