@@ -57,7 +57,7 @@ const ContactPage = () => {
 
   const socialLinks = [
     { icon: Facebook, name: 'Facebook', url: 'https://facebook.com/rawasorganics' },
-    { icon: Instagram, name: 'Instagram', url: 'https://instagram.com/rawasorganics' },
+    { icon: Instagram, name: 'Instagram', url: 'https://www.instagram.com/rawas_organics/' },
     { icon: Twitter, name: 'Twitter', url: 'https://twitter.com/rawasorganics' }
   ];
 

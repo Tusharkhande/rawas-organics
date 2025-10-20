@@ -7,6 +7,7 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedSizes, setSelectedSizes] = useState({});
   const { addToCart } = useCart();
 
   const filteredProducts = useMemo(() => {
@@ -28,8 +29,25 @@ const ProductsPage = () => {
     return filtered;
   }, [selectedCategory, searchTerm]);
 
+  const handleSizeChange = (productId, sizeIndex) => {
+    setSelectedSizes(prev => ({
+      ...prev,
+      [productId]: sizeIndex
+    }));
+  };
+
+  const getSelectedSize = (product) => {
+    const sizeIndex = selectedSizes[product.id] || 0;
+    return product.sizes[sizeIndex];
+  };
+
   const handleAddToCart = (product) => {
-    addToCart(product);
+    const selectedSize = getSelectedSize(product);
+    addToCart({
+      ...product,
+      selectedSize: selectedSize.size,
+      price: selectedSize.price
+    });
   };
 
   return (
@@ -38,10 +56,10 @@ const ProductsPage = () => {
         {/* Header */}
         <div className="text-center space-y-4 mb-12">
           <h1 className="text-3xl sm:text-4xl font-display font-bold text-rusty-900">
-            Our Chocolate Collection
+            Our Product Collection
           </h1>
           <p className="text-lg text-rusty-600 max-w-2xl mx-auto">
-            Discover our handcrafted jaggery-based chocolates, each made with the finest natural ingredients
+            Discover our traditional sweets, festive treats, and jaggery-based delicacies, each made with the finest natural ingredients
           </p>
         </div>
 
@@ -53,7 +71,7 @@ const ProductsPage = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-rusty-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search chocolates..."
+                placeholder="Search sweets, treats, snacks..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-rusty-200 rounded-lg focus:ring-2 focus:ring-earth-500 focus:border-transparent"
@@ -126,60 +144,78 @@ const ProductsPage = () => {
         {/* Products Grid */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <div key={product.id} className="card p-6 group h-full flex flex-col">
-                <div className="aspect-square rounded-lg overflow-hidden mb-4 relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  {!product.inStock && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                      <span className="text-white font-semibold">Out of Stock</span>
-                    </div>
-                  )}
-                </div>
-                
-                <div className="flex-1 space-y-3">
-                  <div>
-                    <h3 className="font-semibold text-rusty-900 group-hover:text-earth-600 transition-colors mb-1">
-                      {product.name}
-                    </h3>
-                    <p className="text-sm text-rusty-600 mb-2">{product.size}</p>
-                    <p className="text-sm text-rusty-600 line-clamp-2">
-                      {product.description}
-                    </p>
+            {filteredProducts.map((product) => {
+              const selectedSize = getSelectedSize(product);
+              return (
+                <div key={product.id} className="card p-6 group h-full flex flex-col">
+                  <div className="aspect-square rounded-lg overflow-hidden mb-4 relative">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {!product.inStock && (
+                      <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <span className="text-white font-semibold">Out of Stock</span>
+                      </div>
+                    )}
                   </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-earth-600">₹{product.price}</span>
-                    <div className="flex items-center text-copper-500">
-                      <Star className="w-4 h-4" fill="currentColor" />
-                      <span className="text-sm text-rusty-600 ml-1">4.8</span>
+                  
+                  <div className="flex-1 space-y-3">
+                    <div>
+                      <h3 className="font-semibold text-rusty-900 group-hover:text-earth-600 transition-colors mb-1">
+                        {product.name}
+                      </h3>
+                      <p className="text-sm text-rusty-600 line-clamp-2 mb-3">
+                        {product.description}
+                      </p>
                     </div>
-                  </div>
 
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    disabled={!product.inStock}
-                    className={`w-full flex items-center justify-center space-x-2 py-2 px-4 rounded-lg font-medium transition-all duration-200 ${
-                      product.inStock
-                        ? 'bg-earth-600 hover:bg-earth-700 text-white'
-                        : 'bg-rusty-200 text-rusty-500 cursor-not-allowed'
-                    }`}
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                    <span>{product.inStock ? 'Add to Cart' : 'Out of Stock'}</span>
-                  </button>
+                    {/* Size Selector */}
+                    <div className="space-y-1">
+                      <label className="text-xs text-rusty-600 font-medium">Select Size:</label>
+                      <select
+                        value={selectedSizes[product.id] || 0}
+                        onChange={(e) => handleSizeChange(product.id, parseInt(e.target.value))}
+                        className="w-full px-3 py-2 border border-rusty-200 rounded-lg text-sm focus:ring-2 focus:ring-earth-500 focus:border-transparent"
+                      >
+                        {product.sizes.map((sizeOption, index) => (
+                          <option key={index} value={index}>
+                            {sizeOption.size} - ₹{sizeOption.price}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <span className="text-lg font-bold text-earth-600">₹{selectedSize.price}</span>
+                      <div className="flex items-center text-copper-500">
+                        <Star className="w-4 h-4" fill="currentColor" />
+                        <span className="text-sm text-rusty-600 ml-1">4.8</span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      disabled={!product.inStock}
+                      className={`w-full flex items-center justify-center space-x-2 py-2 px-4 rounded-lg font-medium transition-all duration-200 ${
+                        product.inStock
+                          ? 'bg-earth-600 hover:bg-earth-700 text-white'
+                          : 'bg-rusty-200 text-rusty-500 cursor-not-allowed'
+                      }`}
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      <span>{product.inStock ? 'Add to Cart' : 'Out of Stock'}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🍫</div>
-            <h3 className="text-xl font-semibold text-rusty-900 mb-2">No chocolates found</h3>
+            <h3 className="text-xl font-semibold text-rusty-900 mb-2">No products found</h3>
             <p className="text-rusty-600 mb-6">
               Try adjusting your search or filter criteria
             </p>

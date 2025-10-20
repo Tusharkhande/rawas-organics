@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 const Header = () => {
@@ -24,8 +24,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-12 sm:h-14">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-7 h-7 rounded-full organic-gradient flex items-center justify-center">
-              <Heart className="w-3 h-3 text-white" fill="currentColor" />
+            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white">
+              <img src="/assets/logo.PNG" alt="Rawas Organics Logo" className="w-full h-full object-cover" />
             </div>
             <div className="hidden sm:block">
               <h1 className="text-lg font-display font-bold text-rusty-900">

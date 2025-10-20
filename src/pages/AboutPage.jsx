@@ -58,7 +58,7 @@ const AboutPage = () => {
                   <h2 className="text-3xl font-display font-bold text-rusty-900">Our Mission</h2>
                 </div>
                 <p className="text-lg text-rusty-700 leading-relaxed">
-                  {brandInfo.mission}
+                  To create authentic Indian sweets, mithai, and festive treats using traditional recipes and organic jaggery, while supporting sustainable farming practices and preserving our culinary heritage.
                 </p>
               </div>
 
@@ -123,7 +123,7 @@ const AboutPage = () => {
               </h2>
             </div>
             <p className="text-lg text-rusty-600 max-w-2xl mx-auto">
-              We believe in creating delicious chocolates while caring for our planet and communities
+              We believe in creating delicious traditional sweets while caring for our planet and communities
             </p>
           </div>
 
@@ -177,13 +177,13 @@ const AboutPage = () => {
               Join Our Sweet Journey
             </h2>
             <p className="text-earth-100 text-lg">
-              Experience the perfect blend of tradition and innovation in every bite
+              Experience the perfect blend of tradition and innovation in every delicious bite
             </p>
             <a
               href="/products"
               className="inline-block px-8 py-4 bg-white text-earth-700 font-semibold rounded-lg hover:bg-rusty-50 transition-colors"
             >
-              Shop Our Chocolates
+              Shop Our Products
             </a>
           </div>
         </div>

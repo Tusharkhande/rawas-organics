@@ -16,8 +16,8 @@ const CartPage = () => {
   });
   const [formErrors, setFormErrors] = useState({});
 
-  const handleQuantityChange = (id, newQuantity) => {
-    updateQuantity(id, newQuantity);
+  const handleQuantityChange = (itemKey, newQuantity) => {
+    updateQuantity(itemKey, newQuantity);
   };
 
   const validateForm = () => {
@@ -73,7 +73,7 @@ const CartPage = () => {
     const orderItemsHTML = items.map(item => 
       `<tr>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name}</td>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.size}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.selectedSize || 'N/A'}</td>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.quantity}</td>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">₹${item.price}</td>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">₹${item.price * item.quantity}</td>
@@ -81,7 +81,7 @@ const CartPage = () => {
     ).join('');
 
     const orderItemsText = items.map(item => 
-      `${item.name} (${item.size}) - Qty: ${item.quantity} - ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}`
+      `${item.name} (${item.selectedSize || 'N/A'}) - Qty: ${item.quantity} - ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}`
     ).join('\n');
 
     const orderDate = new Date().toLocaleString('en-IN', { 
@@ -101,12 +101,12 @@ const CartPage = () => {
       // Initialize EmailJS (done once)
       emailjs.init(publicKey);
 
-      // Send email to admin (khandetushar2001@gmail.com)
+      // Send email to admin (therawasorganics@gmail.com)
       await emailjs.send(
         serviceId,
         adminTemplateId,
         {
-          to_email: 'khandetushar2001@gmail.com',
+          to_email: 'therawasorganics@gmail.com',
           customer_name: customerDetails.name,
           customer_email: customerDetails.email,
           customer_mobile: customerDetails.mobile,
@@ -138,7 +138,7 @@ const CartPage = () => {
         '✅ Order placed successfully!\n\n' +
         `Confirmation emails have been sent to:\n` +
         `• Your email: ${customerDetails.email}\n` +
-        `• Our team: khandetushar2001@gmail.com\n\n` +
+        `• Our team: therawasorganics@gmail.com\n\n` +
         'We will contact you soon for Cash on Delivery.'
       );
 
@@ -235,7 +235,7 @@ const CartPage = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
-              <div key={item.id} className="bg-white rounded-xl shadow-lg p-6">
+              <div key={item.itemKey} className="bg-white rounded-xl shadow-lg p-6">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="w-full sm:w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
                     <img
@@ -248,14 +248,14 @@ const CartPage = () => {
                   <div className="flex-1 space-y-3">
                     <div>
                       <h3 className="font-semibold text-rusty-900">{item.name}</h3>
-                      <p className="text-sm text-rusty-600">{item.size}</p>
+                      <p className="text-sm text-rusty-600">Size: {item.selectedSize || 'N/A'}</p>
                       <p className="text-sm text-rusty-600 line-clamp-1">{item.description}</p>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <button
-                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                          onClick={() => handleQuantityChange(item.itemKey, item.quantity - 1)}
                           className="w-8 h-8 rounded-full bg-rusty-100 hover:bg-rusty-200 flex items-center justify-center text-rusty-700 transition-colors"
                         >
                           <Minus className="w-4 h-4" />
@@ -264,7 +264,7 @@ const CartPage = () => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                          onClick={() => handleQuantityChange(item.itemKey, item.quantity + 1)}
                           className="w-8 h-8 rounded-full bg-rusty-100 hover:bg-rusty-200 flex items-center justify-center text-rusty-700 transition-colors"
                         >
                           <Plus className="w-4 h-4" />
@@ -276,7 +276,7 @@ const CartPage = () => {
                           ₹{item.price * item.quantity}
                         </span>
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item.itemKey)}
                           className="text-red-500 hover:text-red-700 transition-colors p-1"
                         >
                           <Trash2 className="w-4 h-4" />
