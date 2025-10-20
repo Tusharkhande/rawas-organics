@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, User, Mail, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import emailjs from '@emailjs/browser';
 
 const CartPage = () => {
   const { items, updateQuantity, removeFromCart, clearCart, getTotalPrice } = useCart();
@@ -68,100 +69,116 @@ const CartPage = () => {
 
     setIsCheckingOut(true);
 
-    // Prepare order details for email
+    // Prepare order details
+    const orderItemsHTML = items.map(item => 
+      `<tr>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.name}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.size}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${item.quantity}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">₹${item.price}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">₹${item.price * item.quantity}</td>
+      </tr>`
+    ).join('');
+
     const orderItemsText = items.map(item => 
       `${item.name} (${item.size}) - Qty: ${item.quantity} - ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}`
     ).join('\n');
 
-    const orderDetails = {
-      customerName: customerDetails.name,
-      customerEmail: customerDetails.email,
-      customerMobile: customerDetails.mobile,
-      customerAddress: customerDetails.address,
-      items: items,
-      totalAmount: getTotalPrice(),
-      orderDate: new Date().toLocaleString('en-IN', { 
-        timeZone: 'Asia/Kolkata',
-        dateStyle: 'full',
-        timeStyle: 'short'
-      })
-    };
+    const orderDate = new Date().toLocaleString('en-IN', { 
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'full',
+      timeStyle: 'short'
+    });
 
-    // Prepare email content
-    const emailSubject = `New Order from ${customerDetails.name} - Rawas Organics`;
-    const emailBody = `
-NEW ORDER RECEIVED!
-
-Customer Details:
-================
-Name: ${customerDetails.name}
-Email: ${customerDetails.email}
-Mobile: ${customerDetails.mobile}
-Address: ${customerDetails.address}
-
-Order Details:
-==============
-${orderItemsText}
-
-Total Amount: ₹${getTotalPrice()}
-Order Date: ${orderDetails.orderDate}
-
-Payment Method: Cash on Delivery
-`;
+    // EmailJS Configuration
+    // You need to set up at https://www.emailjs.com/
+    const serviceId = 'service_rawas_organics'; // Replace with your EmailJS service ID
+    const adminTemplateId = 'template_nzhymi8'; // Template for admin notification
+    const customerTemplateId = 'template_bqckown'; // Template for customer confirmation
+    const publicKey = 'cnfN7QBYA0VY7xiVi'; // Replace with your EmailJS public key
 
     try {
-      // Using Web3Forms - Free email service
-      // Get your access key from https://web3forms.com
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: '55935fe7-79e2-4e2b-a0ff-96900fd650b3', // Get free key from web3forms.com
-          subject: emailSubject,
-          from_name: 'Rawas Organics Website',
+      // Initialize EmailJS (done once)
+      emailjs.init(publicKey);
+
+      // Send email to admin (khandetushar2001@gmail.com)
+      await emailjs.send(
+        serviceId,
+        adminTemplateId,
+        {
           to_email: 'khandetushar2001@gmail.com',
-          message: emailBody,
-          // Additional fields for reference
           customer_name: customerDetails.name,
           customer_email: customerDetails.email,
           customer_mobile: customerDetails.mobile,
           customer_address: customerDetails.address,
-          order_total: `₹${getTotalPrice()}`,
-        })
+          order_items_html: orderItemsHTML,
+          order_items_text: orderItemsText,
+          total_amount: getTotalPrice(),
+          order_date: orderDate,
+        }
+      );
+
+      // Send confirmation email to customer
+      await emailjs.send(
+        serviceId,
+        customerTemplateId,
+        {
+          to_email: customerDetails.email,
+          customer_name: customerDetails.name,
+          order_items_html: orderItemsHTML,
+          order_items_text: orderItemsText,
+          total_amount: getTotalPrice(),
+          order_date: orderDate,
+          customer_mobile: customerDetails.mobile,
+          customer_address: customerDetails.address,
+        }
+      );
+
+      alert(
+        '✅ Order placed successfully!\n\n' +
+        `Confirmation emails have been sent to:\n` +
+        `• Your email: ${customerDetails.email}\n` +
+        `• Our team: khandetushar2001@gmail.com\n\n` +
+        'We will contact you soon for Cash on Delivery.'
+      );
+
+      clearCart();
+      setShowCheckoutForm(false);
+      setCustomerDetails({
+        name: '',
+        email: '',
+        mobile: '',
+        address: ''
       });
 
-      const result = await response.json();
-
-      if (result.success) {
-        alert('Order placed successfully! You will receive a confirmation email shortly.\n\nOur team will contact you soon for Cash on Delivery.');
-        clearCart();
-        setShowCheckoutForm(false);
-        setCustomerDetails({
-          name: '',
-          email: '',
-          mobile: '',
-          address: ''
-        });
-      } else {
-        throw new Error('Email service failed');
-      }
     } catch (error) {
       console.error('Error sending order:', error);
-      // Fallback: Log order details and show alert
+      
+      // Fallback: Show order details
+      const orderDetails = {
+        customerName: customerDetails.name,
+        customerEmail: customerDetails.email,
+        customerMobile: customerDetails.mobile,
+        customerAddress: customerDetails.address,
+        items: items,
+        totalAmount: getTotalPrice(),
+        orderDate: orderDate
+      };
+      
       console.log('Order Details:', orderDetails);
-      console.log('Email Body:', emailBody);
+      console.log('Order Items Text:', orderItemsText);
       
       alert(
-        'Order received! Our team will contact you soon for Cash on Delivery.\n\n' +
+        '⚠️ Order received but email notification failed.\n\n' +
         'Order Summary:\n' +
         '================\n' +
-        `Name: ${orderDetails.customerName}\n` +
-        `Email: ${orderDetails.customerEmail}\n` +
-        `Mobile: ${orderDetails.customerMobile}\n` +
-        `Total: ₹${orderDetails.totalAmount}\n\n` +
-        'Note: Email notification may not be sent. Please check console for order details.'
+        `Name: ${customerDetails.name}\n` +
+        `Email: ${customerDetails.email}\n` +
+        `Mobile: ${customerDetails.mobile}\n` +
+        `Total: ₹${getTotalPrice()}\n\n` +
+        'Don\'t worry! Your order details have been logged.\n' +
+        'Our team will contact you soon.\n\n' +
+        'Please check browser console for full order details.'
       );
       
       clearCart();

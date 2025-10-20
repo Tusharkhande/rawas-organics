@@ -23,8 +23,8 @@ const HomePage = () => {
               <div className="space-y-4">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-rusty-900 leading-tight">
                   Sweetness{' '}
-                  <span className="text-earth-600">Reimagined</span>{' '}
-                  with Jaggery
+                  <span className="text-earth-600">Rooted in Villages</span>{' '}
+                  with Jaggery & Cocoa
                 </h1>
                 <p className="text-lg sm:text-xl text-rusty-700 leading-relaxed">
                   Discover the perfect blend of tradition and innovation in our handcrafted 

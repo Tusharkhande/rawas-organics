@@ -1,93 +1,60 @@
 export const products = [
-    {
-      id: 1,
-      name: "Classic Jaggery Dark Chocolate",
-      price: 299,
-      image: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400&h=400&fit=crop",
-      description: "Rich dark chocolate infused with pure jaggery for a naturally sweet experience.",
-      category: "dark",
-      size: "100g",
-      ingredients: ["Organic Cacao", "Pure Jaggery", "Cocoa Butter"],
-      inStock: true
-    },
-    {
-      id: 2,
-      name: "Coconut Jaggery Milk Chocolate",
-      price: 329,
-      image: "https://images.unsplash.com/photo-1511381939415-e44015466834?w=400&h=400&fit=crop",
-      description: "Creamy milk chocolate with coconut flakes and jaggery sweetness.",
-      category: "milk",
-      size: "100g",
-      ingredients: ["Milk Chocolate", "Coconut Flakes", "Jaggery", "Cocoa Butter"],
-      inStock: true
-    },
-    {
-      id: 3,
-      name: "Spiced Jaggery Chocolate Bar",
-      price: 349,
-      image: "https://images.unsplash.com/photo-1606312619878-ac35bb3c7fb5?w=400&h=400&fit=crop",
-      description: "Traditional spices blended with jaggery chocolate for an authentic taste.",
-      category: "spiced",
-      size: "100g",
-      ingredients: ["Dark Chocolate", "Jaggery", "Cardamom", "Cinnamon", "Nutmeg"],
-      inStock: true
-    },
-    {
-      id: 4,
-      name: "Almond Jaggery Crunch",
-      price: 379,
-      image: "https://images.unsplash.com/photo-1571197772638-4a2c0ea5e3b6?w=400&h=400&fit=crop",
-      description: "Crunchy almonds embedded in smooth jaggery chocolate.",
-      category: "nuts",
-      size: "120g",
-      ingredients: ["Dark Chocolate", "Roasted Almonds", "Jaggery", "Sea Salt"],
-      inStock: true
-    },
-    {
-      id: 5,
-      name: "Date & Jaggery Fusion",
-      price: 359,
-      image: "https://images.unsplash.com/photo-1481391243133-f96216dcb5d2?w=400&h=400&fit=crop",
-      description: "Sweet dates combined with jaggery chocolate for double natural sweetness.",
-      category: "fruit",
-      size: "100g",
-      ingredients: ["Milk Chocolate", "Dates", "Jaggery", "Vanilla"],
-      inStock: false
-    },
-    {
-      id: 6,
-      name: "Premium Jaggery White Chocolate",
-      price: 399,
-      image: "https://images.unsplash.com/photo-1582131503261-d1f6ab2d3faa?w=400&h=400&fit=crop",
-      description: "Luxurious white chocolate sweetened naturally with pure jaggery.",
-      category: "white",
-      size: "100g",
-      ingredients: ["White Chocolate", "Pure Jaggery", "Vanilla", "Cocoa Butter"],
-      inStock: true
-    },
-    {
-      id: 7,
-      name: "Cashew Jaggery Delight",
-      price: 429,
-      image: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=400&h=400&fit=crop",
-      description: "Premium cashews with jaggery chocolate in a handcrafted bar.",
-      category: "nuts",
-      size: "120g",
-      ingredients: ["Milk Chocolate", "Cashews", "Jaggery", "Ghee"],
-      inStock: true
-    },
-    {
-      id: 8,
-      name: "Ginger Jaggery Dark",
-      price: 339,
-      image: "https://images.unsplash.com/photo-1599599810694-57a2ca8276a8?w=400&h=400&fit=crop",
-      description: "Bold dark chocolate with warming ginger and natural jaggery.",
-      category: "spiced",
-      size: "100g",
-      ingredients: ["Dark Chocolate", "Crystallized Ginger", "Jaggery", "Black Pepper"],
-      inStock: true
-    }
-  ];
+  {
+    id: 1,
+    name: "GopalGud Jaggery Kalakand",
+    price: 299,
+    image: "/assets/GopalGud Kalakand.PNG",
+    description: "Traditional jaggery-based Kalakand, a Janmashtami special sweet crafted with rural authenticity.",
+    category: "mithai",
+    size: "250g",
+    ingredients: ["Organic Jaggery", "Milk Solids", "Pistachios", "Cardamom"],
+    inStock: true 
+  },
+  {
+    id: 2,
+    name: "Chocolate Modak",
+    price: 349,
+    image: "/assets/RAWAS Chocolate Modak.JPG",
+    description: "Rich chocolate Modaks made with shudh ghee and organic jaggery, perfect for festive offerings.",
+    category: "festive",
+    size: "200g",
+    ingredients: ["Organic Jaggery", "Cocoa", "Shudh Ghee", "Milk Solids"],
+    inStock: true
+  },
+  {
+    id: 3,
+    name: "Navratri Sattvik Gulab Jamun",
+    price: 279,
+    image: "/assets/Gulab Jamun.JPG",
+    description: "Soft and juicy Gulab Jamuns prepared in a sattvik style for Navratri celebrations.",
+    category: "mithai",
+    size: "250g",
+    ingredients: ["Milk Solids", "Organic Jaggery Syrup", "Cardamom"],
+    inStock: true
+  },
+  {
+    id: 4,
+    name: "ChocoJag Bar",
+    price: 199,
+    image: "/assets/ChocoJag Bar.PNG",
+    description: "A wholesome bar packed with the goodness of jaggery and crunchy nuts, perfect for gifting.",
+    category: "snack",
+    size: "50g",
+    ingredients: ["Organic Jaggery", "Nuts", "Cocoa", "Rose Petals"],
+    inStock: true
+  },
+  {
+    id: 5,
+    name: "ChocoJag Cubes",
+    price: 249,
+    image: "/assets/ChocoJag Cubes.PNG",
+    description: "Delicious bite-sized cubes made with jaggery and nuts, a healthy festive treat.",
+    category: "snack",
+    size: "150g",
+    ingredients: ["Organic Jaggery", "Nuts", "Cocoa", "Rose Petals"],
+    inStock: true
+  }
+];
   
   export const reviews = [
     {
