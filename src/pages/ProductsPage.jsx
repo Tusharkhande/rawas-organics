@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Filter, Search, ShoppingCart, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { products, categories } from '../data/mockData';
 import { useCart } from '../context/CartContext';
 
@@ -8,7 +9,8 @@ const ProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState({});
-  const { addToCart } = useCart();
+  const [showCartButton, setShowCartButton] = useState(false);
+  const { addToCart, getTotalItems } = useCart();
 
   const filteredProducts = useMemo(() => {
     let filtered = products;
@@ -48,10 +50,29 @@ const ProductsPage = () => {
       selectedSize: selectedSize.size,
       price: selectedSize.price
     });
+    
+    // Show the floating cart button
+    setShowCartButton(true);
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      setShowCartButton(false);
+    }, 5000);
   };
 
   return (
     <div className="py-8 bg-rusty-50 min-h-screen">
+      {/* Floating Cart Button */}
+      {showCartButton && getTotalItems() > 0 && (
+        <Link
+          to="/cart"
+          className="fixed bottom-8 right-8 z-50 bg-earth-600 hover:bg-earth-700 text-white px-6 py-4 rounded-full shadow-2xl flex items-center space-x-3 transition-all duration-300 transform hover:scale-105 animate-bounce"
+        >
+          <ShoppingCart className="w-5 h-5" />
+          <span className="font-semibold">Go to Cart ({getTotalItems()})</span>
+        </Link>
+      )}
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center space-y-4 mb-12">

@@ -6,6 +6,7 @@ import CartPage from './pages/CartPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import ReviewsPage from './pages/ReviewsPage'
+import OrderConfirmationPage from './pages/OrderConfirmationPage'
 import { CartProvider } from './context/CartContext'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
           </Routes>
         </Layout>
       </Router>

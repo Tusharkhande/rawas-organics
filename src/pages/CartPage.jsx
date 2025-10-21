@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, User, Mail, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import emailjs from '@emailjs/browser';
 
 const CartPage = () => {
   const { items, updateQuantity, removeFromCart, clearCart, getTotalPrice } = useCart();
+  const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const [customerDetails, setCustomerDetails] = useState({
@@ -134,22 +135,29 @@ const CartPage = () => {
         }
       );
 
-      alert(
-        '✅ Order placed successfully!\n\n' +
-        `Confirmation emails have been sent to:\n` +
-        `• Your email: ${customerDetails.email}\n` +
-        `• Our team: therawasorganics@gmail.com\n\n` +
-        'We will contact you soon for Cash on Delivery.'
-      );
+      // Prepare order data for confirmation page
+      const orderData = {
+        customerDetails: {
+          name: customerDetails.name,
+          email: customerDetails.email,
+          mobile: customerDetails.mobile,
+          address: customerDetails.address
+        },
+        items: items.map(item => ({
+          name: item.name,
+          selectedSize: item.selectedSize,
+          quantity: item.quantity,
+          price: item.price,
+          image: item.image
+        })),
+        totalAmount: getTotalPrice(),
+        orderDate: orderDate
+      };
 
       clearCart();
-      setShowCheckoutForm(false);
-      setCustomerDetails({
-        name: '',
-        email: '',
-        mobile: '',
-        address: ''
-      });
+      
+      // Navigate to order confirmation page with order data
+      navigate('/order-confirmation', { state: { orderData } });
 
     } catch (error) {
       console.error('Error sending order:', error);
@@ -168,27 +176,29 @@ const CartPage = () => {
       console.log('Order Details:', orderDetails);
       console.log('Order Items Text:', orderItemsText);
       
-      alert(
-        '⚠️ Order received but email notification failed.\n\n' +
-        'Order Summary:\n' +
-        '================\n' +
-        `Name: ${customerDetails.name}\n` +
-        `Email: ${customerDetails.email}\n` +
-        `Mobile: ${customerDetails.mobile}\n` +
-        `Total: ₹${getTotalPrice()}\n\n` +
-        'Don\'t worry! Your order details have been logged.\n' +
-        'Our team will contact you soon.\n\n' +
-        'Please check browser console for full order details.'
-      );
-      
+      // Even if email fails, still navigate to confirmation page
+      const orderData = {
+        customerDetails: {
+          name: customerDetails.name,
+          email: customerDetails.email,
+          mobile: customerDetails.mobile,
+          address: customerDetails.address
+        },
+        items: items.map(item => ({
+          name: item.name,
+          selectedSize: item.selectedSize,
+          quantity: item.quantity,
+          price: item.price,
+          image: item.image
+        })),
+        totalAmount: getTotalPrice(),
+        orderDate: orderDate
+      };
+
       clearCart();
-      setShowCheckoutForm(false);
-      setCustomerDetails({
-        name: '',
-        email: '',
-        mobile: '',
-        address: ''
-      });
+      
+      // Navigate to order confirmation page even if email fails
+      navigate('/order-confirmation', { state: { orderData } });
     } finally {
       setIsCheckingOut(false);
     }

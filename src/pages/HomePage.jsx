@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Leaf, Heart, Award } from 'lucide-react';
+import { ArrowRight, Star, Leaf, Heart, Award, ShoppingCart } from 'lucide-react';
 import { products, reviews } from '../data/mockData';
 import { useCart } from '../context/CartContext';
 
 const HomePage = () => {
-  const { addToCart } = useCart();
+  const { addToCart, getTotalItems } = useCart();
   const featuredProducts = products.slice(0, 4);
   const featuredReviews = reviews.slice(0, 3);
   const [selectedSizes, setSelectedSizes] = useState({});
+  const [showCartButton, setShowCartButton] = useState(false);
 
   const handleSizeChange = (productId, sizeIndex) => {
     setSelectedSizes(prev => ({
@@ -29,10 +30,29 @@ const HomePage = () => {
       selectedSize: selectedSize.size,
       price: selectedSize.price
     });
+    
+    // Show the floating cart button
+    setShowCartButton(true);
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      setShowCartButton(false);
+    }, 5000);
   };
 
   return (
     <div>
+      {/* Floating Cart Button */}
+      {showCartButton && getTotalItems() > 0 && (
+        <Link
+          to="/cart"
+          className="fixed bottom-8 right-8 z-50 bg-earth-600 hover:bg-earth-700 text-white px-6 py-4 rounded-full shadow-2xl flex items-center space-x-3 transition-all duration-300 transform hover:scale-105 animate-bounce"
+        >
+          <ShoppingCart className="w-5 h-5" />
+          <span className="font-semibold">Go to Cart ({getTotalItems()})</span>
+        </Link>
+      )}
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-rusty-100 via-rusty-50 to-earth-50 py-20 lg:py-32">
         <div className="absolute inset-0 bg-organic-texture opacity-30"></div>

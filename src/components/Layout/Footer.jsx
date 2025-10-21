@@ -97,14 +97,9 @@ const Footer = () => {
           <p className="text-rusty-400 text-xs">
             © 2024 Rawas Organics. All rights reserved.
           </p>
-          <div className="flex space-x-3 mt-2 sm:mt-0">
-            <a href="#" className="text-rusty-400 hover:text-copper-400 transition-colors text-xs">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-rusty-400 hover:text-copper-400 transition-colors text-xs">
-              Terms of Service
-            </a>
-          </div>
+          <p className="text-rusty-400 text-xs mt-2 sm:mt-0">
+            Made with ❤️ by TK
+          </p>
         </div>
       </div>
     </footer>
