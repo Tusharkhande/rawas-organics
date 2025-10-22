@@ -17,18 +17,18 @@ const AboutPage = () => {
       image: '',
       bio: 'Passionate about bringing traditional jaggery sweetness to modern chocolate making.'
     },
-    {
-      name: 'Shaurya Khande',
-      role: 'Head of Production',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face',
-      bio: 'Ensures every chocolate meets our highest standards of quality and taste.'
-    },
-    {
-      name: '---',
-      role: 'Sustainability Director',
-      image: '',
-      bio: 'Leading our mission to create a positive impact on farming communities.'
-    },
+    // {
+    //   name: 'Shaurya Khande',
+    //   role: 'Head of Production',
+    //   image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face',
+    //   bio: 'Ensures every chocolate meets our highest standards of quality and taste.'
+    // },
+    // {
+    //   name: '---',
+    //   role: 'Sustainability Director',
+    //   image: '',
+    //   bio: 'Leading our mission to create a positive impact on farming communities.'
+    // },
   ];
 
   return (
@@ -150,16 +150,16 @@ const AboutPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex justify-center">
             {teamMembers.map((member, index) => (
-              <div key={index} className="card p-6 text-center">
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4">
+              <div key={index} className="card p-6 text-center max-w-sm">
+                {/* <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4">
                   <img
                     src={member.image}
                     alt={member.name}
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </div> */}
                 <h3 className="text-xl font-semibold text-rusty-900 mb-1">{member.name}</h3>
                 <p className="text-earth-600 font-medium mb-3">{member.role}</p>
                 <p className="text-rusty-600 text-sm">{member.bio}</p>

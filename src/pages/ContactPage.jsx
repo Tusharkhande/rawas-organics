@@ -32,20 +32,20 @@ const ContactPage = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      content: 'info@rawasorganics.com',
-      link: 'mailto:info@rawasorganics.com'
+      content: 'therawasorganics@gmail.com',
+      link: 'mailto:therawasorganics@gmail.com'
     },
     {
       icon: Phone,
       title: 'Call Us',
-      content: '+91 98765 43210',
-      link: 'tel:+919876543210'
+      content: '+91 97674 60070',
+      link: 'tel:+919767460070'
     },
     {
       icon: MapPin,
       title: 'Visit Us',
-      content: '123 Organic Street, Mumbai, Maharashtra 400001',
-      link: 'https://maps.google.com'
+      content: 'Tanish Pearls, Charholi Bk, Pune, Maharashtra 412105',
+      link: null
     },
     {
       icon: Clock,
@@ -56,9 +56,9 @@ const ContactPage = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, name: 'Facebook', url: 'https://facebook.com/rawasorganics' },
+    // { icon: Facebook, name: 'Facebook', url: 'https://facebook.com/rawasorganics' },
     { icon: Instagram, name: 'Instagram', url: 'https://www.instagram.com/rawas_organics/' },
-    { icon: Twitter, name: 'Twitter', url: 'https://twitter.com/rawasorganics' }
+    // { icon: Twitter, name: 'Twitter', url: 'https://twitter.com/rawasorganics' }
   ];
 
   return (
@@ -70,7 +70,7 @@ const ContactPage = () => {
             Get in Touch
           </h1>
           <p className="text-xl text-rusty-700 max-w-2xl mx-auto">
-            We'd love to hear from you! Whether you have questions about our chocolates, 
+            We'd love to hear from you! Whether you have questions about our products, 
             need help with an order, or just want to share your sweet experience.
           </p>
         </div>
@@ -232,27 +232,6 @@ const ContactPage = () => {
               <button className="bg-white text-earth-700 font-semibold px-6 py-3 rounded-lg hover:bg-rusty-50 transition-colors">
                 View FAQ
               </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Map Section */}
-        <div className="mt-16">
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-display font-bold text-rusty-900 mb-6">
-              Find Our Store
-            </h2>
-            <div className="aspect-video bg-rusty-100 rounded-lg flex items-center justify-center">
-              <div className="text-center text-rusty-600">
-                <MapPin className="w-12 h-12 mx-auto mb-4" />
-                <p className="text-lg font-semibold mb-2">Interactive Map</p>
-                <p className="text-sm">
-                  123 Organic Street, Mumbai, Maharashtra 400001
-                </p>
-                <p className="text-xs mt-2 opacity-75">
-                  Map integration would be implemented here
-                </p>
-              </div>
             </div>
           </div>
         </div>
