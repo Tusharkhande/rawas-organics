@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
-import { CheckCircle, Package, Mail, Phone, MapPin, Home } from 'lucide-react';
+import { CheckCircle, Package, Mail, Phone, MapPin, Home, Gift } from 'lucide-react';
 
 const OrderConfirmationPage = () => {
   const location = useLocation();
@@ -11,7 +11,7 @@ const OrderConfirmationPage = () => {
     return <Navigate to="/" replace />;
   }
 
-  const { customerDetails, items, totalAmount, orderDate } = orderData;
+  const { customerDetails, items, subtotal, discountAmount, discountApplied, totalAmount, orderDate } = orderData;
 
   return (
     <div className="py-16 bg-rusty-50 min-h-screen">
@@ -131,19 +131,54 @@ const OrderConfirmationPage = () => {
 
             {/* Order Summary */}
             <div className="border-t border-rusty-200 pt-6">
+              {discountApplied && (
+                <div className="mb-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-400 rounded-lg">
+                  <div className="flex items-center gap-2 text-orange-700 font-bold mb-1">
+                    <Gift className="w-5 h-5" />
+                    New Year Offer Applied! 🎉
+                  </div>
+                  <p className="text-sm text-orange-600">
+                    You saved ₹{discountAmount} with our 40% off deal!
+                  </p>
+                </div>
+              )}
+              
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-rusty-600">Subtotal</span>
-                  <span className="font-medium text-rusty-900">₹{totalAmount}</span>
+                  <span className="font-medium text-rusty-900">₹{subtotal || totalAmount}</span>
                 </div>
+                
+                {discountApplied && (
+                  <div className="flex justify-between text-green-600">
+                    <span className="flex items-center gap-1">
+                      <Gift className="w-4 h-4" />
+                      Discount (40% off)
+                    </span>
+                    <span className="font-semibold">-₹{discountAmount}</span>
+                  </div>
+                )}
+                
                 <div className="flex justify-between">
                   <span className="text-rusty-600">Shipping</span>
                   <span className="font-medium text-green-600">Free</span>
                 </div>
+                
                 <div className="flex justify-between items-center pt-2 border-t border-rusty-200">
                   <span className="text-lg font-semibold text-rusty-900">Total Amount</span>
-                  <span className="text-2xl font-bold text-earth-600">₹{totalAmount}</span>
+                  <div className="text-right">
+                    {discountApplied && (
+                      <div className="text-sm text-rusty-500 line-through">₹{subtotal}</div>
+                    )}
+                    <span className="text-2xl font-bold text-earth-600">₹{totalAmount}</span>
+                  </div>
                 </div>
+                
+                {discountApplied && (
+                  <p className="text-xs text-green-600 text-right pt-1">
+                    You saved ₹{discountAmount}! 🎉
+                  </p>
+                )}
               </div>
             </div>
 

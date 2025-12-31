@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, User, Mail, Phone } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, User, Mail, Phone, Gift, Tag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import emailjs from '@emailjs/browser';
 
 const CartPage = () => {
-  const { items, updateQuantity, removeFromCart, clearCart, getTotalPrice } = useCart();
+  const { items, updateQuantity, removeFromCart, clearCart, getTotalPrice, getDiscountInfo } = useCart();
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
@@ -16,6 +16,8 @@ const CartPage = () => {
     address: ''
   });
   const [formErrors, setFormErrors] = useState({});
+
+  const discountInfo = getDiscountInfo();
 
   const handleQuantityChange = (itemKey, newQuantity) => {
     updateQuantity(itemKey, newQuantity);
@@ -91,6 +93,20 @@ const CartPage = () => {
       timeStyle: 'short'
     });
 
+    // Prepare discount information for email
+    const discountText = discountInfo.isApplicable 
+      ? `\n\nNew Year Offer Applied! 🎉\nSubtotal: ₹${discountInfo.subtotal}\nDiscount (${discountInfo.discountPercentage}%): -₹${discountInfo.discountAmount}\nFinal Amount: ₹${discountInfo.finalAmount}\nYou Saved: ₹${discountInfo.savedAmount}!`
+      : '';
+
+    const discountHTML = discountInfo.isApplicable
+      ? `<tr>
+          <td colspan="5" style="padding: 16px; background-color: #fef3c7; border-top: 2px solid #fbbf24;">
+            <strong style="color: #92400e;">🎉 New Year Offer Applied!</strong><br/>
+            <span style="color: #78350f;">You saved ₹${discountInfo.savedAmount} with our 40% off offer!</span>
+          </td>
+        </tr>`
+      : '';
+
     // EmailJS Configuration
     // You need to set up at https://www.emailjs.com/
     const serviceId = 'service_rawas_organics'; // Replace with your EmailJS service ID
@@ -112,9 +128,12 @@ const CartPage = () => {
           customer_email: customerDetails.email,
           customer_mobile: customerDetails.mobile,
           customer_address: customerDetails.address,
-          order_items_html: orderItemsHTML,
-          order_items_text: orderItemsText,
-          total_amount: getTotalPrice(),
+          order_items_html: orderItemsHTML + discountHTML,
+          order_items_text: orderItemsText + discountText,
+          total_amount: discountInfo.finalAmount,
+          subtotal: discountInfo.subtotal,
+          discount_amount: discountInfo.discountAmount,
+          discount_applied: discountInfo.isApplicable ? 'Yes' : 'No',
           order_date: orderDate,
         }
       );
@@ -126,9 +145,12 @@ const CartPage = () => {
         {
           to_email: customerDetails.email,
           customer_name: customerDetails.name,
-          order_items_html: orderItemsHTML,
-          order_items_text: orderItemsText,
-          total_amount: getTotalPrice(),
+          order_items_html: orderItemsHTML + discountHTML,
+          order_items_text: orderItemsText + discountText,
+          total_amount: discountInfo.finalAmount,
+          subtotal: discountInfo.subtotal,
+          discount_amount: discountInfo.discountAmount,
+          discount_applied: discountInfo.isApplicable ? 'Yes' : 'No',
           order_date: orderDate,
           customer_mobile: customerDetails.mobile,
           customer_address: customerDetails.address,
@@ -150,7 +172,10 @@ const CartPage = () => {
           price: item.price,
           image: item.image
         })),
-        totalAmount: getTotalPrice(),
+        subtotal: discountInfo.subtotal,
+        discountAmount: discountInfo.discountAmount,
+        discountApplied: discountInfo.isApplicable,
+        totalAmount: discountInfo.finalAmount,
         orderDate: orderDate
       };
 
@@ -191,7 +216,10 @@ const CartPage = () => {
           price: item.price,
           image: item.image
         })),
-        totalAmount: getTotalPrice(),
+        subtotal: discountInfo.subtotal,
+        discountAmount: discountInfo.discountAmount,
+        discountApplied: discountInfo.isApplicable,
+        totalAmount: discountInfo.finalAmount,
         orderDate: orderDate
       };
 
@@ -304,20 +332,68 @@ const CartPage = () => {
             <div className="bg-white rounded-xl shadow-lg p-6 sticky top-24">
               <h2 className="text-xl font-semibold text-rusty-900 mb-6">Order Summary</h2>
               
+              {/* New Year Offer Banner in Cart */}
+              {discountInfo.isApplicable && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-400 rounded-lg">
+                  <div className="flex items-center gap-2 text-orange-700 font-bold mb-1">
+                    <Gift className="w-5 h-5" />
+                    New Year Offer Applied! 🎉
+                  </div>
+                  <p className="text-sm text-orange-600">
+                    You're saving ₹{discountInfo.savedAmount} with our 40% off deal!
+                  </p>
+                </div>
+              )}
+
+              {/* Show offer eligibility message if not eligible */}
+              {!discountInfo.isApplicable && discountInfo.amountNeeded > 0 && (
+                <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-300 rounded-lg">
+                  <div className="flex items-center gap-2 text-blue-700 font-semibold mb-1">
+                    <Tag className="w-5 h-5" />
+                    Almost There!
+                  </div>
+                  <p className="text-sm text-blue-600">
+                    Add ₹{discountInfo.amountNeeded} more to get <span className="font-bold">40% OFF</span> on your order!
+                  </p>
+                </div>
+              )}
+              
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-rusty-600">Subtotal</span>
-                  <span className="font-semibold text-rusty-900">₹{getTotalPrice()}</span>
+                  <span className="font-semibold text-rusty-900">₹{discountInfo.subtotal}</span>
                 </div>
+
+                {discountInfo.isApplicable && (
+                  <div className="flex justify-between text-green-600">
+                    <span className="flex items-center gap-1">
+                      <Gift className="w-4 h-4" />
+                      Discount ({discountInfo.discountPercentage}% off)
+                    </span>
+                    <span className="font-semibold">-₹{discountInfo.discountAmount}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between">
                   <span className="text-rusty-600">Shipping</span>
                   <span className="font-semibold text-green-600">Free</span>
                 </div>
+
                 <div className="border-t border-rusty-200 pt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-rusty-900">Total</span>
-                    <span className="text-xl font-bold text-earth-600">₹{getTotalPrice()}</span>
+                    <div className="text-right">
+                      {discountInfo.isApplicable && (
+                        <div className="text-sm text-rusty-500 line-through">₹{discountInfo.subtotal}</div>
+                      )}
+                      <span className="text-xl font-bold text-earth-600">₹{discountInfo.finalAmount}</span>
+                    </div>
                   </div>
+                  {discountInfo.isApplicable && (
+                    <p className="text-xs text-green-600 text-right mt-1">
+                      You save ₹{discountInfo.savedAmount}! 🎉
+                    </p>
+                  )}
                 </div>
               </div>
 

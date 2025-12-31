@@ -88,6 +88,39 @@ export const CartProvider = ({ children }) => {
     return state.items.reduce((total, item) => total + item.quantity, 0);
   };
 
+  // New Year Offer: 40% off on orders above ₹499
+  const getDiscountInfo = () => {
+    const subtotal = getTotalPrice();
+    const minOrderAmount = 499;
+    const discountPercentage = 40;
+    
+    const isOfferValid = new Date() <= new Date('2026-01-15T23:59:59');
+    const isEligible = subtotal > minOrderAmount;
+    
+    if (isOfferValid && isEligible) {
+      const discountAmount = Math.round((subtotal * discountPercentage) / 100);
+      const finalAmount = subtotal - discountAmount;
+      return {
+        isApplicable: true,
+        subtotal,
+        discountPercentage,
+        discountAmount,
+        finalAmount,
+        savedAmount: discountAmount
+      };
+    }
+    
+    return {
+      isApplicable: false,
+      subtotal,
+      discountPercentage: 0,
+      discountAmount: 0,
+      finalAmount: subtotal,
+      savedAmount: 0,
+      amountNeeded: isOfferValid ? Math.max(0, minOrderAmount + 1 - subtotal) : 0
+    };
+  };
+
   const value = {
     items: state.items,
     addToCart,
@@ -95,7 +128,8 @@ export const CartProvider = ({ children }) => {
     updateQuantity,
     clearCart,
     getTotalPrice,
-    getTotalItems
+    getTotalItems,
+    getDiscountInfo
   };
 
   return (
