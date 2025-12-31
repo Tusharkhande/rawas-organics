@@ -25,7 +25,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white">
-              <img src="/assets/logo.PNG" alt="Rawas Organics Logo" className="w-full h-full object-cover" />
+              <img src="/assets/logo_v2.png" alt="Rawas Organics Logo" className="w-full h-full object-cover" />
             </div>
             <div className="hidden sm:block">
               <h1 className="text-lg font-display font-bold text-rusty-900">

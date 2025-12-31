@@ -1,19 +1,5 @@
 export const products = [
   {
-    id: 1,
-    name: "GopalGud Jaggery Kalakand",
-    image: "/assets/GopalGud Kalakand.PNG",
-    description:
-      "Traditional jaggery-based Kalakand, a Janmashtami special sweet crafted with rural authenticity.",
-    category: "mithai",
-    sizes: [
-      { size: "100g", price: 200 },
-      { size: "200g", price: 399 },
-    ],
-    ingredients: ["Organic Jaggery", "Milk Solids", "Pistachios", "Cardamom"],
-    inStock: true,
-  },
-  {
     id: 2,
     name: "Chocolate Modak",
     image: "/assets/RAWAS Chocolate Modak.JPG",
@@ -73,7 +59,165 @@ export const products = [
     ingredients: ["Organic Jaggery", "Nuts", "Cocoa", "Rose Petals"],
     inStock: true,
   },
+
+  // Almonds & Raisins — sizes set to ONLY 120g @ ₹139
+  {
+    id: 6,
+    name: "Blueberry Flavoured Chocolate Almonds",
+    image: "/assets/IMG-20251214-WA0012.jpg",
+    description:
+      "Premium almonds coated with rich chocolate and infused with blueberry flavor for a fruity twist.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Almonds", "Chocolate", "Blueberry Flavor"],
+    inStock: true,
+  },
+  {
+    id: 7,
+    name: "Milk Chocolate Coated Raisins",
+    image: "/assets/IMG-20251214-WA0017.jpg",
+    description:
+      "Juicy raisins coated in smooth milk chocolate, a classic indulgent treat.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Raisins", "Milk Chocolate"],
+    inStock: true,
+  },
+  {
+    id: 8,
+    name: "Milk Chocolate Almonds",
+    image: "/assets/IMG-20251214-WA0007.jpg",
+    description:
+      "Crunchy almonds covered in creamy milk chocolate for a delightful snack.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Almonds", "Milk Chocolate"],
+    inStock: true,
+  },
+
+  // Butter/Spread products — unchanged from your last request
+  {
+    id: 9,
+    name: "Vegan Pistachio Butter",
+    image: "/assets/IMG-20251214-WA0006.jpg",
+    description:
+      "Smooth and creamy pistachio butter made from premium pistachios, perfect for spreads and desserts.",
+    category: "spread",
+    sizes: [
+      { size: "100g", price: 139 },
+      { size: "250g", price: 339 },
+      { size: "500g", price: 649 },
+    ],
+    ingredients: ["Pistachios"],
+    inStock: true,
+  },
+  {
+    id: 10,
+    name: "Dark Chocolate Almonds",
+    image: "/assets/IMG-20251214-WA0009.jpg",
+    description:
+      "Premium almonds coated in rich dark chocolate for a bold and indulgent flavor.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Almonds", "Dark Chocolate"],
+    inStock: true,
+  },
+  {
+    id: 11,
+    name: "Cookies & Cream Flavoured Chocolate Almonds",
+    image: "/assets/IMG-20251214-WA0008.jpg",
+    description:
+      "Almonds coated in chocolate with a cookies & cream twist for a unique taste experience.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Almonds", "Chocolate", "Cookies & Cream Flavor"],
+    inStock: true,
+  },
+  {
+    id: 12,
+    name: "Dark Chocolate Coated Raisins",
+    image: "/assets/IMG-20251214-WA0016.jpg",
+    description:
+      "Raisins dipped in decadent dark chocolate for a rich and fruity snack.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Raisins", "Dark Chocolate"],
+    inStock: true,
+  },
+  {
+    id: 13,
+    name: "Vegan Almond Butter",
+    image: "/assets/IMG-20251214-WA0005.jpg",
+    description:
+      "Smooth and creamy almond butter made from premium almonds, naturally delicious.",
+    category: "spread",
+    sizes: [
+      { size: "100g", price: 139 },
+      { size: "250g", price: 339 },
+      { size: "500g", price: 649 },
+    ],
+    ingredients: ["Almonds"],
+    inStock: true,
+  },
+  {
+    id: 14,
+    name: "Vegan Cashew Butter",
+    image: "/assets/IMG-20251214-WA0002.jpg",
+    description:
+      "Creamy cashew butter crafted from high-quality cashews for a rich taste.",
+    category: "spread",
+    sizes: [
+      { size: "100g", price: 139 },
+      { size: "250g", price: 339 },
+      { size: "500g", price: 649 },
+    ],
+    ingredients: ["Cashews"],
+    inStock: true,
+  },
+  {
+    id: 15,
+    name: "Strawberry Flavoured Chocolate Almonds",
+    image: "/assets/IMG-20251214-WA0011.jpg",
+    description:
+      "Almonds coated in chocolate with a sweet strawberry flavor for a fruity delight.",
+    category: "snack",
+    sizes: [{ size: "120g", price: 139 }],
+    ingredients: ["Almonds", "Chocolate", "Strawberry Flavor"],
+    inStock: true,
+  },
+  {
+    id: 16,
+    name: "Vegan Walnut Butter",
+    image: "/assets/IMG-20251214-WA0003.jpg",
+    description:
+      "Smooth walnut butter made with organic walnuts for a wholesome spread.",
+    category: "spread",
+    sizes: [
+      { size: "100g", price: 139 },
+      { size: "250g", price: 339 },
+      { size: "500g", price: 649 },
+    ],
+    ingredients: ["Walnuts"],
+    inStock: true,
+  },
+  {
+    id: 17,
+    name: "Vegan Peanut Butter",
+    image: "/assets/IMG-20251214-WA0004.jpg",
+    description:
+      "Classic peanut butter made from roasted peanuts, smooth and creamy.",
+    category: "spread",
+    sizes: [
+      { size: "100g", price: 139 },
+      { size: "250g", price: 339 },
+      { size: "500g", price: 649 },
+    ],
+    ingredients: ["Peanuts"],
+    inStock: true,
+  },
 ];
+
+
 
 export const reviews = [
   {
@@ -199,6 +343,11 @@ export const categories = [
     id: "snack",
     name: "Snacks",
     count: products.filter((p) => p.category === "snack").length,
+  },
+  {
+    id: "spread",
+    name: "Spread",
+    count: products.filter((p) => p.category === "spread").length,
   },
 ];
 
